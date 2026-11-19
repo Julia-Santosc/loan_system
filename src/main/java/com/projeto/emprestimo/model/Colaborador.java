@@ -1,6 +1,9 @@
 package com.projeto.emprestimo.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 
 @Entity
 public class Colaborador {
@@ -9,21 +12,24 @@ public class Colaborador {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String nome;
+   @NotBlank(message = "O nome é obrigatório")
+   @Column(nullable = false)
+   private String nome;
+
+    @NotBlank(message = "O e-mail é obrigatório")
+    @Email(message = "E-mail inválido")
+    @Column(nullable = false, unique = true)
     private String email;
-    private String cargo;
 
-    public Colaborador() { }
+    @NotBlank(message = "O CEP é obrigatório")
+    @Pattern(regexp = "\\d{8}",
+            message = "O CEP deve ter 8 dígitos, sem traço")
+    @Column(nullable = false)
+    private String cep;
 
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    @NotBlank(message = "O número é obrigatório")
+    @Column(nullable = false)
+    private String numero;
 
-    public String getNome() { return nome; }
-    public void setNome(String nome) { this.nome = nome; }
-
-    public String getEmail() { return email; }
-    public void setEmail(String email) { this.email = email; }
-
-    public String getCargo() { return cargo; }
-    public void setCargo(String cargo) { this.cargo = cargo; }
+    private String logradouro, bairro, cidade, uf;
 }
